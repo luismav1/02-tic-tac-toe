@@ -7,19 +7,18 @@ const TURNS = {
   O: "⭕",
 };
 
-
 const Square = ({ children, isSelected, updateBoard, index }) => {
-  const className = `square ${isSelected ? "is-selected" : ""}`
+  const className = `square ${isSelected ? "is-selected" : ""}`;
 
   const handleClick = () => {
     updateBoard(index);
-  }
+  };
 
   return (
     <div onClick={handleClick} className={className}>
       {children}
     </div>
-  )
+  );
 };
 
 const WINNER_COMBOS = [
@@ -45,7 +44,7 @@ const checkWinner = (boardToCheck) => {
     }
   }
   return null;
-}
+};
 function App() {
   const [board, setBoard] = useState(Array(9).fill(null));
 
@@ -57,11 +56,11 @@ function App() {
     setBoard(Array(9).fill(null));
     setTurn(TURNS.X);
     setWinner(null);
-  }
+  };
 
   const checkEndGame = (newBoard) => {
     return newBoard.every((square) => square !== null);
-  }
+  };
 
   const updateBoard = (index) => {
     // no update this position
@@ -75,14 +74,14 @@ function App() {
 
     // change turn
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
-    setTurn(newTurn)
+    setTurn(newTurn);
     // check for winner
     const newWinner = checkWinner(newBoard);
-    if(newWinner){
+    if (newWinner) {
       confetti();
-      setWinner(newWinner)
-    } else if (checkEndGame(newBoard)){
-      setWinner(false)
+      setWinner(newWinner);
+    } else if (checkEndGame(newBoard)) {
+      setWinner(false);
     }
   };
   return (
@@ -103,28 +102,21 @@ function App() {
         <Square isSelected={turn === TURNS.X}>{TURNS.X}</Square>
         <Square isSelected={turn === TURNS.O}>{TURNS.O}</Square>
       </section>
-      {
-        winner !== null && (
-          <section className="winner">
-            <div className="text"> 
-              <h2>
-                {
-                winner === false ? "Empate" : "Ganó: "}
-              </h2>
+      {winner !== null && (
+        <section className="winner">
+          <div className="text">
+            <h2>{winner === false ? "Empate" : "Ganó: "}</h2>
 
-              <header className="win">
-                {winner && <Square>{winner}</Square>}
-              </header>
+            <header className="win">
+              {winner && <Square>{winner}</Square>}
+            </header>
 
-              <footer>
-                <button onClick={resetGame}>Reset del juego</button>
-              </footer>
-
-            </div>
-            </section>
-        
-        )
-      }
+            <footer>
+              <button onClick={resetGame}>Reset del juego</button>
+            </footer>
+          </div>
+        </section>
+      )}
     </main>
   );
 }
